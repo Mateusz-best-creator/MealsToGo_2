@@ -1,6 +1,5 @@
 import React from "react";
-import styled from "styled-components";
-import { View, Text, SafeAreaView, Platform, StatusBar, ScrollView } from "react-native";
+import { FlatList } from "react-native";
 
 // react native paper components
 import { Searchbar } from "react-native-paper";
@@ -8,42 +7,26 @@ import { Searchbar } from "react-native-paper";
 // restaurant screen'
 import RestaurantInfo from "../components/restaurant-card-info.component";
 
-const ScreensContainer = styled.SafeAreaView`
-    flex: 1;
-    ${Platform.OS === 'android' && `padding-top: ${StatusBar.currentHeight}px` }
-`
-
-const SearchContainer = styled.View`
-    padding: ${props => props.theme.space[4]};;
-    padding-bottom: ${props => props.theme.space[1]};
-`
-
-const RestaurantsInfoContainer = styled.View`
-    flex: 1;
-    padding: ${props => props.theme.space[3]};
-`
+import {
+    ScreensContainer,
+    SearchContainer,
+    RestaurantsInfoContainer,
+} from './restaurant-screen.styles';
 
 const RestaurantsScreen = () => {
 
-    const res = 4;
-    const arrayRestaurants = Array.from(new Array(res));
-
     return (
         <ScreensContainer>
-            <ScrollView>
-                <SearchContainer>
-                    <Searchbar placeholder='Search for food...' />
-                </SearchContainer>
-                <RestaurantsInfoContainer>
-                    {
-                        arrayRestaurants.map((_, index) => {
-                            return (
-                                <RestaurantInfo key={index} />
-                            )
-                        })
-                    }
-                </RestaurantsInfoContainer>
-            </ScrollView>
+            <SearchContainer>
+                <Searchbar placeholder='Search for food...' />
+            </SearchContainer>
+            <RestaurantsInfoContainer>
+                <FlatList 
+                    data={[{name: 1}, {name: 2}, {name: 3}, {name: 4}, {name: 5}]}
+                    renderItem={() => <RestaurantInfo />}
+                    keyExtractor={item => item.id}
+                />
+            </RestaurantsInfoContainer>
         </ScreensContainer>
     )
 }
