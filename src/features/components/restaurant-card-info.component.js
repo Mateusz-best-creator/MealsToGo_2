@@ -1,23 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { Text, View, Image } from "react-native";
+import { View, Image } from "react-native";
 
 // Card component from native-paper
 import {Card} from 'react-native-paper';
+
+// Text helper component
+import { Text } from "../../components/text.component";
 
 const RestaurantCard = styled(Card)`
     padding: ${props => props.theme.space[3]};
     background-color: white;
     margin-top: ${props => props.theme.space[5]};
-`
-
-const Title = styled.Text`
-    margin-top: ${props => props.theme};
-    font-family: ${props => props.theme.fonts.body};
-`
-
-const Street = styled.Text`
-    font-family: ${props => props.theme.fonts.heading};
 `
 
 const Rating = styled.View`
@@ -47,6 +41,10 @@ const Spaced = styled.View`
     padding-left: ${props => props.theme.space[2]};
 `
 
+const SpacedTop = styled.View`
+    padding-top: ${props => props.theme.space[3]};
+`
+
 const RestaurantInfo = ({ restaurant = {} }) => {
 
     const {
@@ -64,7 +62,8 @@ const RestaurantInfo = ({ restaurant = {} }) => {
         <>
             <RestaurantCard>
                 <Card.Cover source={{ uri: logoUrl }} />
-                <Title>{name}</Title>
+                <SpacedTop />
+                <Text variant="label">{name}</Text>
                 <Rating>
                     <StarsContainer>
                         {
@@ -80,7 +79,7 @@ const RestaurantInfo = ({ restaurant = {} }) => {
                     </StarsContainer>
                     <DeatailInfoContainer>
                         {
-                            isClosed && <Text style={{color: 'red'}}>TEMPORARILY CLOSED</Text>
+                            isClosed && <Text variant="error">TEMPORARILY CLOSED</Text>
                         }
                         <Spaced />
                         <Icon
@@ -92,7 +91,7 @@ const RestaurantInfo = ({ restaurant = {} }) => {
                         />
                     </DeatailInfoContainer>
                 </Rating>
-                <Street>{street}</Street>
+                <Text variant="caption">{street}</Text>
             </RestaurantCard>
         </>
     )
