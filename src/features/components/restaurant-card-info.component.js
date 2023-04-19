@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // Card component from native-paper
 import {Card} from 'react-native-paper';
@@ -16,23 +16,32 @@ import {
     SpacedTop,
 } from './restaurant-card-info.styles';
 
+// data for random image
+import { mockImages } from "../../data/mock";
+
 const RestaurantInfo = ({ restaurant = {} }) => {
 
     const {
         name = 'some restaurant',
-        amountOfStars = 4,
-        street = 'random street 123',
-        isClosed = true,
-        logoUrl = "https://www.foodiesfeed.com/wp-content/uploads/2019/06/top-view-for-box-of-2-burgers-home-made-600x899.jpg",
-        iconUrl = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
-    } = restaurant;
+        rating = 4,
+        vicinity = 'random street 123',
+        opening_hours,
+        icon = "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/lodging-71.png",
+    } = restaurant.item;
 
-    const StartEmptyArray = Array.from(new Array(amountOfStars));
+    const StartEmptyArray = Array.from(new Array(Math.round(rating)));
+    const isOpenNow = opening_hours && opening_hours.open_now;
+
+    const [randomPhotoUrl, setRandomPhotoUrl] = useState('');
+    useEffect(() => {
+        const randomIndex = Math.floor(Math.random() * mockImages.length);
+        setRandomPhotoUrl(mockImages[randomIndex]);
+    }, [])
 
     return (
         <>
             <RestaurantCard>
-                <Card.Cover source={{ uri: logoUrl }} />
+                <Card.Cover source={{ uri: randomPhotoUrl }} />
                 <SpacedTop />
                 <Text variant="label">{name}</Text>
                 <Rating>
@@ -50,19 +59,29 @@ const RestaurantInfo = ({ restaurant = {} }) => {
                     </StarsContainer>
                     <DeatailInfoContainer>
                         {
-                            isClosed && <Text variant="error">TEMPORARILY CLOSED</Text>
+                            !isOpenNow && <Text variant="error">TEMPORARILY CLOSED</Text>
+                        }
+                        {
+                            isOpenNow ? 
+                            (
+                                <>
+                                <Spaced />
+                                    <Icon
+                                        source={require('../../../assets/open.png')}
+                                    />
+                                </>
+                            )
+                            : null
                         }
                         <Spaced />
                         <Icon
-                            source={require('../../../assets/open.png')}
-                        />
-                        <Spaced />
-                        <Icon
-                            source={require('../../../assets/sleep.png')}
+                            source={{
+                            uri: icon,
+                            }}
                         />
                     </DeatailInfoContainer>
                 </Rating>
-                <Text variant="caption">{street}</Text>
+                <Text variant="caption">{vicinity}</Text>
             </RestaurantCard>
         </>
     )

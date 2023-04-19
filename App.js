@@ -25,9 +25,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // icons for nav-bar
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
-{/* <Feather name="settings" size={24} color="black" /> */}
-{/* <Feather name="map" size={24} color="black" /> */}
-{/* <Ionicons name="restaurant-outline" size={24} color="black" /> */}
+
+// redux provider'
+import { Provider } from 'react-redux';
+// redux store
+import {store} from './src/data/redux/store';
 
 const Container = styled.View`
   flex: 1;
@@ -65,38 +67,40 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container>
-        <NavigationContainer>
-          <Tab.Navigator screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-            const { name } = route;
+      <Provider store={store}>
+        <Container>
+          <NavigationContainer>
+            <Tab.Navigator screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color }) => {
 
-            switch(name) {
-              case 'Restaurants':
-                focused ? color = 'tomato' : color = 'gray';
-                return <Ionicons name="restaurant-outline" size={24} color={color} />
-              case 'Map':
-                focused ? color = 'tomato' : color = 'gray';
-                return <Feather name="map" size={24} color={color} />
-              case 'Settings':
-                focused ? color = 'tomato' : color = 'gray';
-                return <Feather name="settings" size={24} color={color} />
-              default:
-                return;
-            }
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-          headerShown: false,
-        })}
-      >
-            <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
-            <Tab.Screen name="Map" component={HomeScreen} />
-            <Tab.Screen name="Settings" component={SettingsScreen} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </Container>
+              const { name } = route;
+
+              switch(name) {
+                case 'Restaurants':
+                  focused ? color = 'tomato' : color = 'gray';
+                  return <Ionicons name="restaurant-outline" size={24} color={color} />
+                case 'Map':
+                  focused ? color = 'tomato' : color = 'gray';
+                  return <Feather name="map" size={24} color={color} />
+                case 'Settings':
+                  focused ? color = 'tomato' : color = 'gray';
+                  return <Feather name="settings" size={24} color={color} />
+                default:
+                  return;
+              }
+            },
+            tabBarActiveTintColor: 'tomato',
+            tabBarInactiveTintColor: 'gray',
+            headerShown: false,
+          })}
+        >
+              <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
+              <Tab.Screen name="Map" component={HomeScreen} />
+              <Tab.Screen name="Settings" component={SettingsScreen} />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </Container>
+      </Provider>
     </ThemeProvider>
     
   );
