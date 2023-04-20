@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { FlatList } from "react-native";
+import { FlatList, View } from "react-native";
 
 // react native paper components
 import { Searchbar } from "react-native-paper";
@@ -11,20 +11,25 @@ import {
     ScreensContainer,
     SearchContainer,
     RestaurantsInfoContainer,
+    LoaderContainer,
 } from './restaurant-screen.styles';
 
 // redux dispatch
 import { useDispatch } from "react-redux";
-import { setRestaurants } from "../../data/redux/restaurantData/restaurant.actions";
+import { 
+    setRestaurants,
+    setLoading,
+} from "../../data/redux/restaurantData/restaurant.reducer";
 // redux selector hook
 import { useSelector } from "react-redux";
-import {selectRestaurantsData} from '../../data/redux/restaurantData/restaurant.selector';
+import {selectRestaurantsData,} from '../../data/redux/restaurantData/restaurant.selector';
 import { selectIsLoading } from "../../data/redux/restaurantData/restaurant.selector";
 
 // api reqyest
 import { fakeApiRequest } from "../../data/fakeRequest";
 
-import { mockImages } from "../../data/mock";
+// loader
+import Loader from "../../components/loader";
 
 const RestaurantsScreen = () => {
 
@@ -34,11 +39,13 @@ const RestaurantsScreen = () => {
     console.log(isLoading);
 
     useEffect(() => {
+        dispatch(setLoading(true))
         setTimeout(() => {
             
             fakeApiRequest()
                 .then(data => dispatch(setRestaurants(data)))
                 .catch(console.log)
+            dispatch(setLoading(false))
         }, 3000)
     }, [])
     
@@ -48,11 +55,17 @@ const RestaurantsScreen = () => {
                 <Searchbar placeholder='Search for food...' />
             </SearchContainer>
             <RestaurantsInfoContainer>
-                <FlatList 
-                    data={resturantDataFromApi}
-                    renderItem={(item) => <RestaurantInfo restaurant={item} />}
-                    keyExtractor={item => item.id}
-                />
+                {
+                    !isLoading ?
+                    <FlatList 
+                        data={resturantDataFromApi}
+                        renderItem={(item) => <RestaurantInfo restaurant={item} />}
+                        keyExtractor={item => item.id}
+                    />
+                    : <LoaderContainer>
+                        <Loader />
+                    </ LoaderContainer>
+                }
             </RestaurantsInfoContainer>
         </ScreensContainer>
     )

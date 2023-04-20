@@ -1,4 +1,4 @@
-import { RestaurantsTypes } from "./restaurant.types";
+import { createSlice } from "@reduxjs/toolkit";
 
 const InitialState = {
     restaurants: [],
@@ -6,16 +6,19 @@ const InitialState = {
     error: null,
 }
 
-export const restaurantsReducer = ( state = InitialState, action ) => {
-    const {type, payload} = action;
-
-    switch(type) {
-        case RestaurantsTypes.SET_RESTAURANTS_DATA:
-            return {
-                ...state,
-                restaurants: payload,
-            }
-        default:
-            return state;
+const restaurantSlice = createSlice({
+    name: 'restaurants',
+    initialState: InitialState,
+    reducers: {
+        setRestaurants(state, action) {
+            state.restaurants = action.payload;
+        },
+        setLoading(state, action) {
+            state.isLoading = action.payload;
+        },
     }
-}
+})
+
+export const {setRestaurants} = restaurantSlice.actions;
+export const {setLoading} = restaurantSlice.actions;
+export const restaurantsReducer = restaurantSlice.reducer;

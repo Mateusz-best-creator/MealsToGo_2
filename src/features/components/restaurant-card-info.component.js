@@ -59,9 +59,6 @@ const RestaurantInfo = ({ restaurant = {} }) => {
                     </StarsContainer>
                     <DeatailInfoContainer>
                         {
-                            !isOpenNow && <Text variant="error">TEMPORARILY CLOSED</Text>
-                        }
-                        {
                             isOpenNow ? 
                             (
                                 <>
@@ -71,7 +68,7 @@ const RestaurantInfo = ({ restaurant = {} }) => {
                                     />
                                 </>
                             )
-                            : null
+                            : <Text variant="error">TEMPORARILY CLOSED</Text>
                         }
                         <Spaced />
                         <Icon

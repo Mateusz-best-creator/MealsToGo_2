@@ -15,3 +15,9 @@ export const RestaurantsInfoContainer = styled.View`
     flex: 1;
     padding: ${props => props.theme.space[3]};
 `
+
+export const LoaderContainer = styled.View`
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+`
