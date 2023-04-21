@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { FlatList } from "react-native";
 
 // search bar component
@@ -15,6 +15,7 @@ import {
 
 // redux dispatch
 import { useDispatch } from "react-redux";
+import { setCityName, setLocation } from "../../data/redux/locationsData/locations.reducer";
 import { 
     setRestaurants,
     setLoading,
@@ -23,9 +24,10 @@ import {
 import { useSelector } from "react-redux";
 import {selectRestaurantsData,} from '../../data/redux/restaurantData/restaurant.selector';
 import { selectIsLoading } from "../../data/redux/restaurantData/restaurant.selector";
+import { selectLocation, selectCityName } from "../../data/redux/locationsData/locations.selector";
 
 // api reqyest
-import { fakeApiRequest } from "../../data/fakeRequest";
+import { fakeApiLocationRequest, fakeApiRequest } from "../../data/fakeRequest";
 
 // loader
 import Loader from "../../components/loader";
@@ -35,17 +37,19 @@ const RestaurantsScreen = () => {
     const dispatch = useDispatch();
     const resturantDataFromApi = useSelector(selectRestaurantsData);
     const isLoading = useSelector(selectIsLoading);
+    const location = useSelector(selectLocation);
+    const cityName = useSelector(selectCityName);
 
     useEffect(() => {
         dispatch(setLoading(true))
+
         setTimeout(() => {
-            
-            fakeApiRequest()
+            fakeApiRequest(location)
                 .then(data => dispatch(setRestaurants(data)))
                 .catch(console.log)
             dispatch(setLoading(false))
         }, 3000)
-    }, [])
+    }, [cityName, location])
     
     return (
         <ScreensContainer>

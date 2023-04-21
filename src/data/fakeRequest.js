@@ -1,11 +1,24 @@
 import React from "react";
-import { mocks } from "./mock/mockRestaurants/index";;
+import { mocks } from "./mock/mockRestaurants/index";
 
-export const fakeApiRequest = (location = "41.878113,-87.629799") => {
+import {locations} from './mock/mockLocations/location.mock';
+
+export const fakeApiRequest = (location) => {
     return new Promise((resolve, reject) => {
         const mock = mocks[location];
         if (!mock) {
-            reject('Not Found.');
+            reject('Not Found sth goes wrong!!!!.');
+        }
+
+        resolve(mock);
+    })
+}
+
+export const fakeApiLocationRequest = (cityName) => {
+    return new Promise((resolve, reject) => {
+        const mock = locations[cityName];
+        if(!mock) {
+            reject('Not found sth goes wrong.');
         }
 
         resolve(mock);
