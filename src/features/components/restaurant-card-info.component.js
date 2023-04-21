@@ -17,7 +17,7 @@ import {
 } from './restaurant-card-info.styles';
 
 // data for random image
-import { mockImages } from "../../data/mock";
+import { mockImages } from "../../data/mock/mockRestaurants/index";
 
 const RestaurantInfo = ({ restaurant = {} }) => {
 
@@ -41,7 +41,9 @@ const RestaurantInfo = ({ restaurant = {} }) => {
     return (
         <>
             <RestaurantCard>
-                <Card.Cover source={{ uri: randomPhotoUrl }} />
+                {
+                    randomPhotoUrl && <Card.Cover source={{ uri: randomPhotoUrl }} />   
+                }
                 <SpacedTop />
                 <Text variant="label">{name}</Text>
                 <Rating>
@@ -50,7 +52,7 @@ const RestaurantInfo = ({ restaurant = {} }) => {
                             StartEmptyArray.map((_, index) => {
                                 return (
                                     <Icon
-                                        key={index}
+                                        key={`${name}-${index}`}
                                         source={require('../../../assets/star2.jpg')}
                                     />
                                 )

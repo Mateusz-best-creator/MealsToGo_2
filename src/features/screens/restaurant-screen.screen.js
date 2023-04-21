@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from "react";
-import { FlatList, View } from "react-native";
+import React, {useEffect} from "react";
+import { FlatList } from "react-native";
 
-// react native paper components
-import { Searchbar } from "react-native-paper";
+// search bar component
+import { Search } from "../../components/search.component";
 
 // restaurant screen'
 import RestaurantInfo from "../components/restaurant-card-info.component";
 
 import {
     ScreensContainer,
-    SearchContainer,
     RestaurantsInfoContainer,
     LoaderContainer,
 } from './restaurant-screen.styles';
@@ -36,7 +35,6 @@ const RestaurantsScreen = () => {
     const dispatch = useDispatch();
     const resturantDataFromApi = useSelector(selectRestaurantsData);
     const isLoading = useSelector(selectIsLoading);
-    console.log(isLoading);
 
     useEffect(() => {
         dispatch(setLoading(true))
@@ -51,9 +49,7 @@ const RestaurantsScreen = () => {
     
     return (
         <ScreensContainer>
-            <SearchContainer>
-                <Searchbar placeholder='Search for food...' />
-            </SearchContainer>
+            <Search />
             <RestaurantsInfoContainer>
                 {
                     !isLoading ?
