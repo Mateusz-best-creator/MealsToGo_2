@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import { FlatList } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native";
 
 // search bar component
 import { Search } from "../../components/search.component";
@@ -32,14 +32,14 @@ import { fakeApiLocationRequest, fakeApiRequest } from "../../data/fakeRequest";
 // loader
 import Loader from "../../components/loader";
 
-const RestaurantsScreen = () => {
+const RestaurantsScreen = ({ navigation }) => {
 
     const dispatch = useDispatch();
     const resturantDataFromApi = useSelector(selectRestaurantsData);
     const isLoading = useSelector(selectIsLoading);
     const location = useSelector(selectLocation);
     const cityName = useSelector(selectCityName);
-
+    console.log("Navigation", navigation)
     useEffect(() => {
         dispatch(setLoading(true))
 
@@ -59,7 +59,13 @@ const RestaurantsScreen = () => {
                     !isLoading ?
                     <FlatList 
                         data={resturantDataFromApi}
-                        renderItem={(item) => <RestaurantInfo restaurant={item} />}
+                        renderItem={(item) => {
+                            return (
+                                <TouchableOpacity onPress={() => navigation.navigate('RestaurantDetails')}>
+                                    <RestaurantInfo restaurant={item} />
+                                </TouchableOpacity>
+                            )
+                        }}
                         keyExtractor={item => item.id}
                     />
                     : <LoaderContainer>

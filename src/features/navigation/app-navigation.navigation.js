@@ -12,6 +12,9 @@ import { Feather } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
+// restaurants navigation component
+import { RestaurantsNavigation } from "./restaurants-navigation.navigation";
+
 const Tab = createBottomTabNavigator();
 
 function HomeScreen() {
@@ -29,7 +32,6 @@ function SettingsScreen() {
         </View>
     );
 }
-  
 
 export const AppNavigation = () => {
     return (
@@ -58,7 +60,7 @@ export const AppNavigation = () => {
                 headerShown: false,
             })}
             >
-              <Tab.Screen name="Restaurants" component={RestaurantsScreen} />
+              <Tab.Screen name="Restaurants" component={RestaurantsNavigation} />
               <Tab.Screen name="Map" component={HomeScreen} />
               <Tab.Screen name="Settings" component={SettingsScreen} />
             </Tab.Navigator>
