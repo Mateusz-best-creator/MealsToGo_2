@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { View, Text, SafeAreaView, Platform, StatusBar, ScrollView } from "react-native";
+import {Platform, StatusBar } from "react-native";
 
 export const ScreensContainer = styled.SafeAreaView`
     flex: 1;

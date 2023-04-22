@@ -19,7 +19,7 @@ import {
 // data for random image
 import { mockImages } from "../../data/mock/mockRestaurants/index";
 
-const RestaurantInfo = ({ restaurant = {} }) => {
+const RestaurantInfo = ({ restaurant = {}, photoUrl }) => {
 
     const {
         name = 'some restaurant',
@@ -32,17 +32,11 @@ const RestaurantInfo = ({ restaurant = {} }) => {
     const StartEmptyArray = Array.from(new Array(Math.round(rating)));
     const isOpenNow = opening_hours && opening_hours.open_now;
 
-    const [randomPhotoUrl, setRandomPhotoUrl] = useState('');
-    useEffect(() => {
-        const randomIndex = Math.floor(Math.random() * mockImages.length);
-        setRandomPhotoUrl(mockImages[randomIndex]);
-    }, [])
-
     return (
         <>
             <RestaurantCard>
                 {
-                    randomPhotoUrl && <Card.Cover source={{ uri: randomPhotoUrl }} />   
+                    photoUrl && <Card.Cover source={{ uri: photoUrl }} />   
                 }
                 <SpacedTop />
                 <Text variant="label">{name}</Text>

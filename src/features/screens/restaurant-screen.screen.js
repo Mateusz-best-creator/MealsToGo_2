@@ -27,10 +27,13 @@ import { selectIsLoading } from "../../data/redux/restaurantData/restaurant.sele
 import { selectLocation, selectCityName } from "../../data/redux/locationsData/locations.selector";
 
 // api reqyest
-import { fakeApiLocationRequest, fakeApiRequest } from "../../data/fakeRequest";
+import { fakeApiRequest } from "../../data/fakeRequest";
 
 // loader
 import Loader from "../../components/loader";
+
+// random photos array
+import { mockImages } from "../../data/mock/mockRestaurants";
 
 const RestaurantsScreen = ({ navigation }) => {
 
@@ -39,7 +42,8 @@ const RestaurantsScreen = ({ navigation }) => {
     const isLoading = useSelector(selectIsLoading);
     const location = useSelector(selectLocation);
     const cityName = useSelector(selectCityName);
-    console.log("Navigation", navigation)
+    const [randomPhotos, setRandomPhotos] = useState([]);
+    
     useEffect(() => {
         dispatch(setLoading(true))
 
@@ -50,7 +54,17 @@ const RestaurantsScreen = ({ navigation }) => {
             dispatch(setLoading(false))
         }, 3000)
     }, [cityName, location])
-    
+
+    useEffect(() => {
+        let photosArray = [];
+        for (let i = 0; i < 25; i++) {
+            const randomIndex = Math.floor(Math.random() * mockImages.length);
+            const randomPhotoUrl = mockImages[randomIndex];
+            photosArray.push(randomPhotoUrl)
+        }
+        setRandomPhotos(photosArray)
+    },[cityName])
+
     return (
         <ScreensContainer>
             <Search />
@@ -61,8 +75,8 @@ const RestaurantsScreen = ({ navigation }) => {
                         data={resturantDataFromApi}
                         renderItem={(item) => {
                             return (
-                                <TouchableOpacity onPress={() => navigation.navigate('RestaurantDetails')}>
-                                    <RestaurantInfo restaurant={item} />
+                                <TouchableOpacity onPress={() => navigation.navigate('RestaurantDetails', {photoUrl: randomPhotos[item.index], restaurant: item})}>
+                                    <RestaurantInfo restaurant={item} photoUrl={randomPhotos[item.index]} />
                                 </TouchableOpacity>
                             )
                         }}

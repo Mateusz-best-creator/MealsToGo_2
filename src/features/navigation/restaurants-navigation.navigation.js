@@ -2,12 +2,10 @@ import React from "react";
 import {Text, Platform} from 'react-native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
 import RestaurantsScreen from "../screens/restaurant-screen.screen";
+// restaurants details screen component
+import { RestaurantsDetailsScreen } from "../screens/restaurants-details.screen";
 
 const Stack = createStackNavigator();
-
-const RestaurantsDetailScreen = () => {
-    return <Text>Czesc</Text>
-}
 
 export const RestaurantsNavigation = () => {
 
@@ -24,7 +22,7 @@ export const RestaurantsNavigation = () => {
           />
           <Stack.Screen 
             name="RestaurantDetails" 
-            component={RestaurantsDetailScreen} 
+            component={RestaurantsDetailsScreen} 
           />
         </Stack.Navigator>
       );
