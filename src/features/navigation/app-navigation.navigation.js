@@ -1,9 +1,6 @@
 import React from "react";
 import { Text, View } from "react-native";
 
-// scrrens for ach side of our app
-import RestaurantsScreen from '../screens/restaurant-screen.screen';
-
 // icons for nav-bar
 import { Ionicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons'; 
@@ -15,15 +12,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // restaurants navigation component
 import { RestaurantsNavigation } from "./restaurants-navigation.navigation";
 
-const Tab = createBottomTabNavigator();
+// map screen
+import MapScreen from "../map/map-screen/map-screen.screen";
 
-function HomeScreen() {
-    return (
-      <View>
-        <Text>Home!</Text>
-      </View>
-    );
-  }
+const Tab = createBottomTabNavigator();
   
 function SettingsScreen() {
     return (
@@ -61,7 +53,7 @@ export const AppNavigation = () => {
             })}
             >
               <Tab.Screen name="Restaurants" component={RestaurantsNavigation} />
-              <Tab.Screen name="Map" component={HomeScreen} />
+              <Tab.Screen name="Map" component={MapScreen} />
               <Tab.Screen name="Settings" component={SettingsScreen} />
             </Tab.Navigator>
         </NavigationContainer>
